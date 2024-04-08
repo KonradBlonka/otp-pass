@@ -10,10 +10,11 @@ function Slot(props: SlotProps) {
           'relative w-10 h-14 text-[2rem]',
           'flex items-center justify-center',
           'transition-all duration-300',
-          'border-border border-y border-r first:border-l first:rounded-l-md last:rounded-r-md',
+          'border-border border-y border-r border-l first:border-l first:rounded-l-md last:rounded-r-md',
           'group-hover:border-accent-foreground/20 group-focus-within:border-accent-foreground/20',
           'outline outline-0 outline-accent-foreground/20',
           { 'outline-4 outline-accent-foreground': props.isActive },
+
         )}
       >
         {props.char !== null && <div>{props.char}</div>}
@@ -30,10 +31,10 @@ function Slot(props: SlotProps) {
     )
   }
 
-  function FakeDash() {
+  function FakeDash({ value }: { value: string }) {
     return (
       <div className="flex w-10 justify-center items-center">
-        <div className="w-3 h-1 rounded-full bg-border" />
+        <div>{value}</div>
       </div>
     )
   }

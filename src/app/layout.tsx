@@ -13,7 +13,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Home inputList={[3, '-', 7, '=', 2, '@']} />
+        <div className="bg-white">
+        <Home inputList={[3, '-', 7, '=', 5, '@']} />
+        </div>
       </body>
     </html>
   );
