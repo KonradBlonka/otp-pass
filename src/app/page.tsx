@@ -1,55 +1,58 @@
 "use client"
 
-import { Separator } from "@/components/Separator";
-import { 
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSlot,
-} from "@/components/ui/input-otp";
+import { Slot, FakeDash } from "@/components/Slot";
+import { OTPInput } from "input-otp";
 import { useState } from "react";
 
-interface InputItem {
-  type: 'number' | 'separator';
-  value?: number;
-  separator?: string | null;
-}
 
-const generateInputGroups = (inputList: InputItem[]) => {
-  const groups: React.ReactNode[] = [];
-  let currentGroup: React.ReactNode[] = [];
+type InputList = (number | string)[];
 
-  inputList.forEach((item, index) => {
-    if (item.type === 'number' && typeof item.value === 'number') {
-      // Tworzymy nową tablicę za pomocą Array(n).fill()
-      const slots = Array(item.value).fill(null).map((_, slotIndex) => (
-        <div key={index + slotIndex}>
-          <InputOTPSlot index={index + slotIndex} /> 
-        </div>
-      ));
-      currentGroup.push(...slots);  // Dołączamy wygenerowane sloty do grupy
-    } 
-  }); 
+const Home: React.FC<{ inputList: InputList }> = ({ inputList }) => {
+  const [otp, setOtp] = useState<string | null>(null);
+  const [isValidating, setIsValidating] = useState<boolean>(false);
 
-  // Dodanie ostatniej grupy
-  if (currentGroup.length > 0) {
-    groups.push(<InputOTPGroup key={groups.length}>{currentGroup}</InputOTPGroup>);
-  }
 
-  return groups;
-};
 
-export default function Home() {
-  const [inputList] = useState<InputItem[]>([
-    { type: 'number', value: 3 },
-    { type: 'separator', separator: '-' },
-    { type: 'number', value: 7 },
-    { type: 'separator', separator: '=' },
-    { type: 'number', value: 2 },
-  ]);
+  const onSubmit = () => {
+    console.log("Values: ", otp);
+    setIsValidating(true);
+  };
+
+  const renderSlots = () => {
+    let currentIndex = 0;
+    const slots: JSX.Element[] = [];
+    inputList.forEach((item, idx) => {
+      if (typeof item === "number") {
+        for (let i = 0; i < item; i++) {
+          slots.push(
+            <Slot
+              key={`${idx}${i}`}
+              isActive={false}
+              char={otp ? otp[currentIndex] : ""}
+              hasFakeCaret={true}
+            />
+          );
+          currentIndex++; // Zwiększa indeks po dodaniu cyfry do `otp`
+        }
+      } else if (typeof item === "string") {
+        slots.push(<FakeDash key={`${idx}`} />);
+      }
+    });
+    return slots;
+  };
 
   return (
-    <InputOTP maxLength={inputList.reduce((a, b) => (typeof b === 'number' ? a + b : a), 0)}>
-      {generateInputGroups(inputList)}
-    </InputOTP>
+    <form className="absolute inset-0 flex flex-col justify-center items-center">
+      <OTPInput
+        onComplete={onSubmit}
+        onChange={setOtp}
+        value={otp ?? ""}
+        maxLength={12}
+        containerClassName="group flex items-center has-[:disabled]:opacity:30"
+        render={({ slots }) => <>{renderSlots()}</>}
+      />
+    </form>
   );
-}
+};
+
+export default Home;
