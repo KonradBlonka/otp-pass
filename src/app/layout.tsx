@@ -14,7 +14,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <div className="bg-white">
-        <Home inputList={[3, '-', 7, '=', 5, '@']} />
+        <Home inputList={[3, '-@', 7, '=', 5, '@']} />
         </div>
       </body>
     </html>
