@@ -20,7 +20,7 @@ const Home: React.FC<{ inputList: InputList }> = ({ inputList }) => {
     let currentIndex = 0; // Zmienna śledząca bieżący indeks w `otp`
   
     inputList.forEach((item) => {
-      // odpowiednie wartości otp muszą się znaleźć w odpowiednich przedziałach item
+      // wartości otp muszą się znaleźć w przedziałach item
       if (typeof item === "number") {
         // Sprawdź, czy `otp` jest zdefiniowane i czy ma odpowiednią długość
         if (otp && currentIndex + item <= otp.length) {
@@ -64,7 +64,9 @@ const Home: React.FC<{ inputList: InputList }> = ({ inputList }) => {
     inputList.forEach((item, index) => {
       if (typeof item === "number") {
         for (let i = 0; i < item; i++) {
+          
           let isActive = currentIndex === otp?.length;
+
           renderedSlots.push(
             <Slot
               key={`${index}${i}`}
