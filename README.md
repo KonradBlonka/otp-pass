@@ -13,6 +13,7 @@ generuje tam 3 inputy, separator '-', 7 inputów, separator '=', 2 inputy. Warto
 - stworzono przycisk, który po naciśnięciu wyświetli alert ze stringiem zbudowanym na podstawie 
 wygenerowanych inputów i separatorów
 
+# Uruchumienie programu
 - skopiować repozytorium
 - "npm ci"
 - "npm run dev"
